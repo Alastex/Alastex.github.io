@@ -55,6 +55,64 @@
       z-index: 0;
     }
 
+    /* matrix-inspired side rain */
+    .matrix-rain {
+      position: fixed;
+      inset: -8vh 0 -8vh 0;
+      pointer-events: none;
+      display: flex;
+      justify-content: space-between;
+      mix-blend-mode: screen;
+      z-index: 0;
+    }
+
+    .matrix-side {
+      display: flex;
+      gap: 0.55rem;
+      width: 20vw;
+      max-width: 220px;
+      padding-inline: 1.1rem;
+    }
+
+    .matrix-left {
+      justify-content: flex-start;
+    }
+
+    .matrix-right {
+      justify-content: flex-end;
+    }
+
+    .matrix-stream {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+        Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.85rem;
+      line-height: 1.05;
+      letter-spacing: 0.18em;
+      writing-mode: vertical-rl;
+      text-orientation: upright;
+      color: rgba(239, 68, 68, 0.82);
+      text-shadow:
+        0 0 12px rgba(239, 68, 68, 0.6),
+        0 0 30px rgba(239, 68, 68, 0.28);
+      opacity: 0.18;
+      filter: blur(0.1px);
+      animation: streamFall 15s linear infinite;
+    }
+
+    .matrix-stream:nth-child(odd) {
+      opacity: 0.24;
+      animation-duration: 18s;
+    }
+
+    @keyframes streamFall {
+      0% {
+        transform: translateY(-110%);
+      }
+      100% {
+        transform: translateY(110%);
+      }
+    }
+
     .page {
       position: relative;
       width: 100%;
@@ -85,7 +143,7 @@
       );
       opacity: 0.9;
       mix-blend-mode: screen;
-      animation: borderSweep 14s linear infinite;
+      animation: borderSweep 28s linear infinite;
       pointer-events: none;
       z-index: -2;
     }
@@ -416,6 +474,7 @@
   </style>
 </head>
 <body>
+  <div class="matrix-rain" aria-hidden="true"></div>
   <div class="page">
     <header class="reveal">
       <div class="avatar">{ }</div>
@@ -524,6 +583,48 @@
   <script>
     // auto-update year
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // matrix rain on the sides
+    const matrixContainer = document.querySelector(".matrix-rain");
+    const MATRIX_CHARS = "0123456789<>[]{}#%$*/";
+    const STREAMS_PER_SIDE = 4;
+
+    function randomStream(length = 30) {
+      let out = "";
+      for (let i = 0; i < length; i++) {
+        out += MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
+      }
+      return out;
+    }
+
+    function createStream() {
+      const stream = document.createElement("div");
+      stream.className = "matrix-stream";
+      stream.textContent = randomStream(26 + Math.floor(Math.random() * 12));
+      stream.style.animationDuration = `${13 + Math.random() * 7}s`;
+      stream.style.animationDelay = `${-Math.random() * 10}s`;
+      stream.style.opacity = (0.14 + Math.random() * 0.14).toFixed(2);
+      return stream;
+    }
+
+    if (matrixContainer) {
+      ["left", "right"].forEach(side => {
+        const holder = document.createElement("div");
+        holder.className = `matrix-side matrix-${side}`;
+        for (let i = 0; i < STREAMS_PER_SIDE; i++) {
+          holder.appendChild(createStream());
+        }
+        matrixContainer.appendChild(holder);
+      });
+
+      setInterval(() => {
+        document.querySelectorAll(".matrix-stream").forEach(stream => {
+          if (Math.random() > 0.55) {
+            stream.textContent = randomStream(22 + Math.floor(Math.random() * 14));
+          }
+        });
+      }, 4200);
+    }
 
     // scroll reveal
     const observer = new IntersectionObserver(
