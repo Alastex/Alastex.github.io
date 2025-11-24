@@ -2,46 +2,411 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Welcome to my site</title>
+  <title>Alex Castillo · Portfolio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    :root {
+      --bg: #050816;
+      --bg-soft: #0b1020;
+      --card: #111827;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.14);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+      --radius-xl: 1.5rem;
+      --radius-lg: 1rem;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 0;
-      padding: 2rem;
-      max-width: 800px;
-      margin-inline: auto;
-      line-height: 1.6;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 45%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1.25rem;
+      display: flex;
+      justify-content: center;
     }
-    h1 {
+
+    .page {
+      width: 100%;
+      max-width: 960px;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.98));
+      border-radius: 2rem;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      padding: 2.25rem 1.75rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(34, 197, 94, 0.14), transparent 55%),
+        radial-gradient(circle at 100% 0, rgba(59, 130, 246, 0.14), transparent 55%);
+      opacity: 0.6;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.75rem;
+      align-items: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 999px;
+      border: 2px solid rgba(148, 163, 184, 0.5);
+      background: radial-gradient(circle at 30% 30%, #22c55e, #0f172a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: #f9fafb;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.8);
+      flex-shrink: 0;
+    }
+
+    .hero-text {
+      flex: 1;
+      min-width: 230px;
+    }
+
+    .eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
       margin-bottom: 0.5rem;
     }
-    .tagline {
-      color: #666;
-      margin-bottom: 2rem;
+
+    h1 {
+      font-size: clamp(1.9rem, 3vw, 2.5rem);
+      margin-bottom: 0.35rem;
     }
-    a {
+
+    .tagline {
+      color: var(--muted);
+      max-width: 32rem;
+      font-size: 0.98rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.3rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      font-size: 0.9rem;
       text-decoration: none;
+      color: var(--text);
+      transition: 0.18s ease;
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #4ade80);
+      color: #022c22;
+      border-color: transparent;
+      font-weight: 600;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(148, 163, 184, 0.7);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 12px 28px rgba(34, 197, 94, 0.45);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 780px) {
+      .page {
+        padding: 1.75rem 1.25rem 2rem;
+      }
+
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        align-items: flex-start;
+      }
+    }
+
+    section {
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    h2::before {
+      content: "";
+      width: 3px;
+      height: 16px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--accent), transparent);
+      display: inline-block;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, rgba(15, 23, 42, 0.9), #020617);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.9);
+    }
+
+    .card + .card {
+      margin-top: 0.75rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 0.98rem;
+    }
+
+    .card-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.6rem;
+    }
+
+    .pill {
+      font-size: 0.75rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.85);
+      color: #e5e7eb;
+      white-space: nowrap;
+    }
+
+    .pill--accent {
+      background: var(--accent-soft);
+      border-color: rgba(34, 197, 94, 0.7);
+      color: #bbf7d0;
+    }
+
+    .split {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .contact {
+      border-radius: var(--radius-lg);
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      padding: 0.9rem 0.9rem 0.9rem;
+      background: radial-gradient(circle at 0 100%, rgba(34, 197, 94, 0.12), transparent 50%);
+      font-size: 0.9rem;
+    }
+
+    .contact a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .contact a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 1.25rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
     }
   </style>
 </head>
 <body>
-  <h1>Hello, I’m Alex 👋</h1>
-  <p class="tagline">This is my GitHub Pages site.</p>
+  <div class="page">
+    <header>
+      <div class="avatar">
+        A
+      </div>
+      <div class="hero-text">
+        <div class="eyebrow">Data science · finance · code</div>
+        <h1>Hi, I’m Alex 👋</h1>
+        <p class="tagline">
+          I’m a student interested in data, economics, and building projects that actually get used
+          in the real world. This is a little hub for what I’m working on.
+        </p>
 
-  <p>
-    I’ll use this space to share projects, notes, and experiments.
-  </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://github.com/Alastex" target="_blank">
+            View my GitHub
+          </a>
+          <a class="btn" href="#projects">
+            See projects
+          </a>
+        </div>
+      </div>
+    </header>
 
-  <h2>Projects</h2>
-  <ul>
-    <li>Project 1 – Coming soon</li>
-    <li>Project 2 – Coming soon</li>
-  </ul>
+    <main>
+      <!-- LEFT COLUMN -->
+      <div class="split">
+        <section id="about">
+          <h2>About</h2>
+          <div class="card">
+            <p class="muted">
+              I like mixing <strong>data</strong>, <strong>code</strong>, and <strong>storytelling</strong>.
+              I’m currently learning more about probability, visualization, and back-end tools
+              like Python, R, and databases.
+            </p>
+          </div>
+        </section>
 
-  <p>
-    You can find my GitHub profile here:
-    <a href="https://github.com/Alastex" target="_blank">github.com/Alastex</a>.
-  </p>
+        <section id="projects">
+          <h2>Projects</h2>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Project One</div>
+              <div class="card-meta">2025 · personal</div>
+            </div>
+            <p>
+              Short description of something cool you built.
+              Mention what it does and why you made it.
+            </p>
+            <div class="pill-row">
+              <span class="pill pill--accent">Python</span>
+              <span class="pill">Data viz</span>
+              <a class="pill" href="https://github.com/Alastex/REPO-NAME" target="_blank">
+                View repo →
+              </a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Another Project</div>
+              <div class="card-meta">2024 · school</div>
+            </div>
+            <p>
+              Brief explanation of a course project: what problem it solved, your role,
+              and one interesting thing you learned.
+            </p>
+            <div class="pill-row">
+              <span class="pill pill--accent">R</span>
+              <span class="pill">Shiny</span>
+              <span class="pill">Visualization</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="split">
+        <section>
+          <h2>Skills & tools</h2>
+          <div class="card">
+            <div class="skills-grid">
+              <span class="pill pill--accent">Python</span>
+              <span class="pill">R</span>
+              <span class="pill">Git & GitHub</span>
+              <span class="pill">SQL / Databases</span>
+              <span class="pill">Statistics & probability</span>
+              <span class="pill">HTML & CSS</span>
+              <span class="pill">Data visualization</span>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Contact</h2>
+          <div class="contact">
+            <p>
+              Want to say hi or share a project idea?
+              You can reach me at
+              <a href="mailto:acastillopa@gmail.com">acastillopa@gmail.com</a>
+              or on
+              <a href="https://github.com/Alastex" target="_blank">GitHub</a>.
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <span>© <span id="year"></span> Alex Castillo</span>
+      <span>Built with GitHub Pages</span>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
