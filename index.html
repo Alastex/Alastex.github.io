@@ -67,49 +67,42 @@
     }
 
     .matrix-side {
-      display: flex;
-      gap: 0.55rem;
-      width: 20vw;
-      max-width: 220px;
-      padding-inline: 1.1rem;
+      position: relative;
+      width: 22vw;
+      max-width: 240px;
+      height: 100%;
+      overflow: hidden;
+      padding-inline: 1.25rem;
     }
 
-    .matrix-left {
-      justify-content: flex-start;
-    }
-
-    .matrix-right {
-      justify-content: flex-end;
-    }
-
-    .matrix-stream {
+    .matrix-char {
+      position: absolute;
+      top: -12%;
       font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
         Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 0.85rem;
-      line-height: 1.05;
+      font-size: 0.95rem;
       letter-spacing: 0.18em;
-      writing-mode: vertical-rl;
-      text-orientation: upright;
-      color: rgba(239, 68, 68, 0.82);
+      color: rgba(255, 94, 94, 0.8);
       text-shadow:
-        0 0 12px rgba(239, 68, 68, 0.6),
-        0 0 30px rgba(239, 68, 68, 0.28);
-      opacity: 0.18;
-      filter: blur(0.1px);
-      animation: streamFall 15s linear infinite;
+        0 0 12px rgba(255, 94, 94, 0.8),
+        0 0 30px rgba(255, 94, 94, 0.45);
+      filter: brightness(1.1);
+      animation: drop var(--speed, 7s) linear infinite;
+      animation-delay: var(--delay, 0s);
+      opacity: 0;
     }
 
-    .matrix-stream:nth-child(odd) {
-      opacity: 0.24;
-      animation-duration: 18s;
-    }
-
-    @keyframes streamFall {
+    @keyframes drop {
       0% {
-        transform: translateY(-110%);
+        transform: translate3d(0, -16%, 0);
+        opacity: 0;
+      }
+      12% {
+        opacity: 1;
       }
       100% {
-        transform: translateY(110%);
+        transform: translate3d(0, 120%, 0);
+        opacity: 0;
       }
     }
 
@@ -584,46 +577,39 @@
     // auto-update year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // matrix rain on the sides
+    // matrix rain on the sides (single bright characters)
     const matrixContainer = document.querySelector(".matrix-rain");
     const MATRIX_CHARS = "0123456789<>[]{}#%$*/";
-    const STREAMS_PER_SIDE = 4;
+    const CHARS_PER_SIDE = 16;
 
-    function randomStream(length = 30) {
-      let out = "";
-      for (let i = 0; i < length; i++) {
-        out += MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
-      }
-      return out;
+    function randomChar() {
+      return MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
     }
 
-    function createStream() {
-      const stream = document.createElement("div");
-      stream.className = "matrix-stream";
-      stream.textContent = randomStream(26 + Math.floor(Math.random() * 12));
-      stream.style.animationDuration = `${13 + Math.random() * 7}s`;
-      stream.style.animationDelay = `${-Math.random() * 10}s`;
-      stream.style.opacity = (0.14 + Math.random() * 0.14).toFixed(2);
-      return stream;
+    function resetChar(el) {
+      el.textContent = randomChar();
+      el.style.left = `${Math.random() * 100}%`;
+      el.style.setProperty("--speed", `${5 + Math.random() * 6}s`);
+      el.style.setProperty("--delay", `${Math.random() * -6}s`);
+    }
+
+    function createChar() {
+      const char = document.createElement("span");
+      char.className = "matrix-char";
+      resetChar(char);
+      char.addEventListener("animationiteration", () => resetChar(char));
+      return char;
     }
 
     if (matrixContainer) {
       ["left", "right"].forEach(side => {
         const holder = document.createElement("div");
         holder.className = `matrix-side matrix-${side}`;
-        for (let i = 0; i < STREAMS_PER_SIDE; i++) {
-          holder.appendChild(createStream());
+        for (let i = 0; i < CHARS_PER_SIDE; i++) {
+          holder.appendChild(createChar());
         }
         matrixContainer.appendChild(holder);
       });
-
-      setInterval(() => {
-        document.querySelectorAll(".matrix-stream").forEach(stream => {
-          if (Math.random() > 0.55) {
-            stream.textContent = randomStream(22 + Math.floor(Math.random() * 14));
-          }
-        });
-      }, 4200);
     }
 
     // scroll reveal
