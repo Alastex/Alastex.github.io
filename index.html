@@ -234,41 +234,109 @@
     }
 
     .card {
+      position: relative;
       background: radial-gradient(circle at top left, #151515, #050505);
       border-radius: var(--radius-lg);
       padding: 1rem;
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 12px 26px rgba(0,0,0,0.9);
-      transition: .18s ease;
-      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.9);
       overflow: hidden;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(239, 68, 68, 0.18), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(239, 68, 68, 0.12), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .card + .card {
+      margin-top: 0.75rem;
     }
 
     .card:hover {
       transform: translateY(-3px);
       border-color: rgba(239, 68, 68, 0.6);
-      box-shadow: 0 0 20px rgba(239, 68, 68, 0.25), 0 18px 40px rgba(0,0,0,0.95);
+      box-shadow:
+        0 0 20px rgba(239, 68, 68, 0.25),
+        0 18px 40px rgba(0, 0, 0, 0.95);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 0.98rem;
+      color: #fff;
+    }
+
+    .card-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.6rem;
     }
 
     .pill {
+      font-size: 0.75rem;
       padding: 0.18rem 0.6rem;
       border-radius: 999px;
-      background: rgba(15,15,15,0.9);
-      border: 1px solid rgba(255,255,255,0.16);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(15, 15, 15, 0.9);
       color: #e5e7eb;
+      white-space: nowrap;
       font-family: "JetBrains Mono", monospace;
-      font-size: 0.75rem;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
     }
 
     .pill--accent {
       background: var(--accent-soft);
-      border-color: rgba(239,68,68,0.7);
+      border-color: rgba(239, 68, 68, 0.7);
       color: #fecaca;
     }
 
-    .split { display: flex; flex-direction: column; gap: 1rem; }
+    .pill:hover {
+      border-color: rgba(239, 68, 68, 0.7);
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+      background: rgba(10, 10, 10, 0.95);
+    }
 
-    .muted { color: var(--muted); }
+    .split {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
 
     .contact {
       border-radius: var(--radius-lg);
@@ -342,7 +410,7 @@
             A fork of the <code>fdd_p25</code> repository with distributed computing labs:
             synchronous &amp; asynchronous execution models, message passing, Hadoop, and more.
           </p>
-          <div class="pill-row" style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem;">
+          <div class="pill-row">
             <span class="pill pill--accent">Python</span>
             <span class="pill pill--accent">Hadoop</span>
             <span class="pill">Distributed systems</span>
@@ -519,7 +587,7 @@
               <div class="card-meta">${updated}</div>
             </div>
             <p>${desc}</p>
-            <div class="pill-row" style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem;">
+            <div class="pill-row">
               ${lang}
               <span class="pill">★ ${repo.stargazers_count}</span>
               <a class="pill" href="${repo.html_url}" target="_blank">Open repo →</a>
