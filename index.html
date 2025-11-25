@@ -233,6 +233,31 @@
       background: linear-gradient(180deg, var(--accent), transparent);
     }
 
+    /* emphasize about */
+    .about-card {
+      border: 1px solid rgba(239, 68, 68, 0.6);
+      box-shadow:
+        0 0 22px rgba(239, 68, 68, 0.18),
+        0 18px 44px rgba(0, 0, 0, 0.92);
+      background:
+        linear-gradient(135deg, rgba(239, 68, 68, 0.08), transparent 50%),
+        radial-gradient(circle at top left, #1a0a0a, #050505);
+    }
+
+    .about-card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+
+    .about-points {
+      display: grid;
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+      color: #f3f4f6;
+      font-size: 0.95rem;
+    }
+
     .card {
       position: relative;
       background: radial-gradient(circle at top left, #151515, #050505);
@@ -345,6 +370,38 @@
       background: radial-gradient(circle at 0 100%, rgba(239,68,68,0.16), transparent 55%);
     }
 
+    .photo-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      border: 1px dashed rgba(255, 255, 255, 0.18);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(239, 68, 68, 0.16), transparent 45%),
+        rgba(10, 10, 10, 0.9);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.9);
+      padding: 0.75rem;
+      overflow: hidden;
+      min-height: 220px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+    }
+
+    .photo-placeholder {
+      width: min(260px, 100%);
+      aspect-ratio: 4 / 5;
+      border-radius: 1rem;
+      border: 2px dashed rgba(239, 68, 68, 0.7);
+      background:
+        linear-gradient(135deg, rgba(239, 68, 68, 0.15), transparent 60%),
+        rgba(15, 15, 15, 0.95);
+      display: grid;
+      place-items: center;
+      color: #fecaca;
+      letter-spacing: 0.08em;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+
     footer {
       margin-top: 1.25rem;
       color: var(--muted);
@@ -389,12 +446,18 @@
 
       <section id="about" class="reveal delay-1">
         <h2>About</h2>
-        <div class="card">
+        <div class="card about-card">
+          <h3>Blending data + math + real-world builds</h3>
           <p class="muted">
             I like mixing <strong>data</strong>, <strong>code</strong>, and <strong>storytelling</strong>.
             I’m currently learning probability, visualization, and back-end tools
             like Python, R, and databases.
           </p>
+          <div class="about-points">
+            <span>• Building distributed computing labs to understand scale.</span>
+            <span>• Exploring statistical modeling and data pipelines.</span>
+            <span>• Interested in projects that ship and get used.</span>
+          </div>
         </div>
       </section>
 
@@ -431,8 +494,14 @@
     </div>
 
     <div class="split">
-
       <section class="reveal delay-1">
+        <h2>Photo</h2>
+        <div class="photo-card">
+          <div class="photo-placeholder">Photo coming soon</div>
+        </div>
+      </section>
+
+      <section class="reveal delay-2">
         <h2>Skills & tools</h2>
         <div class="card">
           <div class="skills-grid" style="display:flex;flex-wrap:wrap;gap:.4rem;">
@@ -451,7 +520,7 @@
         </div>
       </section>
 
-      <section class="reveal delay-2">
+      <section class="reveal delay-3">
         <h2>Contact</h2>
         <div class="contact">
           <p>
