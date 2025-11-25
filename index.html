@@ -439,13 +439,13 @@
         if (y > window.innerHeight && Math.random() > 0.985) {
           drops[i] = 0;
         } else {
-          drops[i] += 0.55 + Math.random() * 0.25; // slower movement
+          drops[i] += 0.9 + Math.random() * 0.35; // slightly faster fall
         }
       }
     }
 
-    // Slow FPS → much better performance
-    setInterval(draw, 85);
+    // Slow FPS → much better performance (still tuned faster)
+    setInterval(draw, 65);
 
     window.addEventListener("resize", setup);
     setup();
