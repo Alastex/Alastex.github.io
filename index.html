@@ -89,9 +89,20 @@
         transparent,
         transparent
       );
-      opacity: 0.9;
+      opacity: 0.75;
       mix-blend-mode: screen;
       animation: borderSweep 28s linear infinite;
+      filter: blur(14px);
+      mask-image: radial-gradient(circle at center,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.6) 46%,
+        rgba(0, 0, 0, 1) 62%,
+        rgba(0, 0, 0, 0) 84%);
+      -webkit-mask-image: radial-gradient(circle at center,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.6) 46%,
+        rgba(0, 0, 0, 1) 62%,
+        rgba(0, 0, 0, 0) 84%);
       pointer-events: none;
       z-index: -2;
     }
@@ -439,13 +450,13 @@
         if (y > window.innerHeight && Math.random() > 0.985) {
           drops[i] = 0;
         } else {
-          drops[i] += 0.9 + Math.random() * 0.35; // slightly faster fall
+          drops[i] += 0.65 + Math.random() * 0.3; // slightly slower fall
         }
       }
     }
 
-    // Slow FPS → much better performance (still tuned faster)
-    setInterval(draw, 65);
+    // Slow FPS → much better performance
+    setInterval(draw, 80);
 
     window.addEventListener("resize", setup);
     setup();
