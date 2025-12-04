@@ -314,6 +314,9 @@
       white-space: nowrap;
       font-family: "JetBrains Mono", monospace;
       transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
     }
 
     .pill--accent {
@@ -474,18 +477,18 @@
         <h2>Skills & tools</h2>
         <div class="card">
           <div class="skills-grid" style="display:flex;flex-wrap:wrap;gap:.4rem;">
-            <span class="pill pill--accent">Java</span>
-            <span class="pill pill--accent">Python</span>
-            <span class="pill pill--accent">R</span>
-            <span class="pill pill--accent">Docker</span>
-            <span class="pill pill--accent">HTML & CSS</span>
-            <span class="pill pill--accent">Git & GitHub</span>
-            <span class="pill pill--accent">Pandas</span>
-            <span class="pill pill--accent">FastAPI</span>
-            <span class="pill pill--accent">SQL / Databases</span>
-            <span class="pill pill--accent">Statistics</span>
-            <span class="pill pill--accent">Mathematics</span>
-            <span class="pill pill--accent">Data viz</span>
+            <a class="pill pill--accent" href="https://www.java.com/" target="_blank">Java</a>
+            <a class="pill pill--accent" href="https://www.python.org/" target="_blank">Python</a>
+            <a class="pill pill--accent" href="https://www.r-project.org/" target="_blank">R</a>
+            <a class="pill pill--accent" href="https://www.docker.com/" target="_blank">Docker</a>
+            <a class="pill pill--accent" href="https://developer.mozilla.org/en-US/docs/Web" target="_blank">HTML & CSS</a>
+            <a class="pill pill--accent" href="https://github.com/" target="_blank">Git & GitHub</a>
+            <a class="pill pill--accent" href="https://pandas.pydata.org/" target="_blank">Pandas</a>
+            <a class="pill pill--accent" href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a>
+            <a class="pill pill--accent" href="https://www.postgresql.org/" target="_blank">SQL / Databases</a>
+            <a class="pill pill--accent" href="https://www.statistics.com/" target="_blank">Statistics</a>
+            <a class="pill pill--accent" href="https://www.khanacademy.org/math" target="_blank">Mathematics</a>
+            <a class="pill pill--accent" href="https://www.tableau.com/learn/articles/data-visualization" target="_blank">Data viz</a>
           </div>
         </div>
       </section>
@@ -597,6 +600,22 @@
   const GH_USER = "Alastex";
   const projectsContainer = document.getElementById("github-projects-list");
 
+  async function fetchRepoLanguages(repoFullName) {
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${repoFullName}/languages`
+      );
+      if (!res.ok) return [];
+      const data = await res.json();
+      // Return languages sorted by bytes (most used first), limit to top 4
+      return Object.keys(data)
+        .sort((a, b) => data[b] - data[a])
+        .slice(0, 4);
+    } catch (err) {
+      return [];
+    }
+  }
+
   async function loadRepos() {
     try {
       const res = await fetch(
@@ -614,13 +633,23 @@
 
       projectsContainer.innerHTML = "";
 
-      repos.forEach(repo => {
+      // Fetch languages for all repos in parallel
+      const reposWithLanguages = await Promise.all(
+        repos.map(async (repo) => {
+          const languages = await fetchRepoLanguages(repo.full_name);
+          return { ...repo, languages };
+        })
+      );
+
+      reposWithLanguages.forEach(repo => {
         const desc = repo.description || "No description provided.";
-        const lang = repo.language
-          ? `<span class="pill">${repo.language}</span>`
-          : "";
         const updated = repo.updated_at
           ? new Date(repo.updated_at).toLocaleDateString()
+          : "";
+
+        // Create language pills
+        const langPills = repo.languages.length > 0
+          ? repo.languages.map(lang => `<span class="pill">${lang}</span>`).join("")
           : "";
 
         const html = `
@@ -631,7 +660,7 @@
             </div>
             <p>${desc}</p>
             <div class="pill-row">
-              ${lang}
+              ${langPills}
               <span class="pill">★ ${repo.stargazers_count}</span>
               <a class="pill pill--accent" href="${repo.html_url}" target="_blank">Open Repo →</a>
             </div>
