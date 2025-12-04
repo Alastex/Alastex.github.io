@@ -443,10 +443,10 @@
             synchronous &amp; asynchronous execution models, message passing, Python, and more.
           </p>
           <div class="pill-row">
-            <span class="pill pill--accent">Python</span>
-            <span class="pill pill--accent">Pandas</span>
+            <span class="pill">Python</span>
+            <span class="pill">Pandas</span>
             <span class="pill">Distributed systems</span>
-            <a class="pill" href="https://github.com/Alastex/fdd_p25" target="_blank">View repo →</a>
+            <a class="pill pill--accent" href="https://github.com/Alastex/fdd_p25" target="_blank">Open Repo →</a>
           </div>
         </div>
       </section>
@@ -617,7 +617,7 @@
       repos.forEach(repo => {
         const desc = repo.description || "No description provided.";
         const lang = repo.language
-          ? `<span class="pill pill--accent">${repo.language}</span>`
+          ? `<span class="pill">${repo.language}</span>`
           : "";
         const updated = repo.updated_at
           ? new Date(repo.updated_at).toLocaleDateString()
@@ -633,7 +633,7 @@
             <div class="pill-row">
               ${lang}
               <span class="pill">★ ${repo.stargazers_count}</span>
-              <a class="pill" href="${repo.html_url}" target="_blank">Open repo →</a>
+              <a class="pill pill--accent" href="${repo.html_url}" target="_blank">Open Repo →</a>
             </div>
           </div>
         `;
