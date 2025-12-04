@@ -362,20 +362,19 @@
       text-align: center;
     }
 
-    .photo-placeholder {
+    .photo-card img {
       width: min(260px, 100%);
       aspect-ratio: 4 / 5;
+      object-fit: cover;
       border-radius: 1rem;
-      border: 2px dashed rgba(239, 68, 68, 0.7);
-      background:
-        linear-gradient(135deg, rgba(239, 68, 68, 0.15), transparent 60%),
-        rgba(15, 15, 15, 0.95);
-      display: grid;
-      place-items: center;
-      color: #fecaca;
-      letter-spacing: 0.08em;
-      font-size: 0.85rem;
-      text-transform: uppercase;
+      border: 2px solid rgba(239, 68, 68, 0.7);
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .photo-card:hover img {
+      transform: scale(1.02);
+      box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
     }
 
     footer {
@@ -467,7 +466,7 @@
       <section class="reveal delay-1">
         <h2>Photo</h2>
         <div class="photo-card">
-          <div class="photo-placeholder">Photo coming soon</div>
+          <img src="images/photo.jpg" alt="Alex Castillo" />
         </div>
       </section>
 
